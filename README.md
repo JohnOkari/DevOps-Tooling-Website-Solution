@@ -57,7 +57,8 @@ sudo lvcreate -n lv-apps -L 3G vg_data
 sudo lvcreate -n lv-logs -L 3G vg_data
 sudo lvcreate -n lv-opt  -L 3G vg_data
 ```
- [Image 1](images/image1.png)
+ ![LVM Configuration](images/image1.png)
+ 
 ### 5. Format with XFS
 
 ```bash
@@ -127,7 +128,7 @@ Esc + :wq!
 
 sudo exportfs -arv
 ```
- [Image 2](images/image2.png)
+ ![Image 2](images/image2.png)
 ---
 
 ## Step 2 — Configure the Database Server
