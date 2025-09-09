@@ -57,7 +57,7 @@ sudo lvcreate -n lv-apps -L 3G vg_data
 sudo lvcreate -n lv-logs -L 3G vg_data
 sudo lvcreate -n lv-opt  -L 3G vg_data
 ```
-    ![LVM Configuration](images/image1.png)
+   ![LVM Configuration](images/image1.png)
  
 ### 5. Format with XFS
 
@@ -128,7 +128,7 @@ Esc + :wq!
 
 sudo exportfs -arv
 ```
-    ![Image 2](images/image2.png)
+   ![Image 2](images/image2.png)
 ---
 
 ## Step 2 — Configure the Database Server
@@ -198,7 +198,7 @@ Apply the change immediately
 sudo mount -a
 df -h | grep /var/www
 ```
-    ![Image 3](images/image3.png)
+   ![Image 3](images/image3.png)
 
 Make persistent:
 
@@ -274,7 +274,7 @@ VALUES ('myuser', '5f4dcc3b5aa765d61d8327deb882cf99', 'user@mail.com', 'admin', 
 SELECT * FROM users;
 
 ```
-    ![Image 4](images/image4.png)
+   ![Image 4](images/image4.png)
 
 (Password here = `password`, MD5 hashed)
 
@@ -293,7 +293,7 @@ If you get 'Forbidden You don't have permission to access this resource' run
    ```
    http://<Web-Server-Public-IP>/index.php
    ```
-    ![Image 5](images/image5.png)
+   ![Image 5](images/image5.png)
 
 2. Login with:
 
