@@ -57,7 +57,7 @@ sudo lvcreate -n lv-apps -L 3G vg_data
 sudo lvcreate -n lv-logs -L 3G vg_data
 sudo lvcreate -n lv-opt  -L 3G vg_data
 ```
- ![LVM Configuration](images/image1.png)
+    ![LVM Configuration](images/image1.png)
  
 ### 5. Format with XFS
 
@@ -128,7 +128,7 @@ Esc + :wq!
 
 sudo exportfs -arv
 ```
- ![Image 2](images/image2.png)
+    ![Image 2](images/image2.png)
 ---
 
 ## Step 2 — Configure the Database Server
@@ -153,6 +153,10 @@ sudo mysql_secure_installation
 ```
 
 ### 4. Create tooling DB and user
+
+```bash
+sudo mysql
+```
 
 ```sql
 CREATE DATABASE tooling;
@@ -186,7 +190,15 @@ sudo yum install nfs-utils nfs4-acl-tools -y
 ```bash
 sudo mkdir -p /var/www
 sudo mount -t nfs <NFS-Private-IP>:/mnt/apps /var/www
+df -h | grep /var/www
 ```
+Apply the change immediately
+
+```bash
+sudo mount -a
+df -h | grep /var/www
+```
+    ![Image 3](images/image3.png)
 
 Make persistent:
 
@@ -238,21 +250,31 @@ sudo cp -r tooling/html/* /var/www/html/
 Edit `/var/www/html/functions.php` and set:
 
 ```php
+sudo vi /var/www/html/functions.php
+
 $db = mysqli_connect('<DB-Private-IP>', 'webaccess', 'yourpassword', 'tooling');
 ```
 
 ### 7. Load DB schema
 
 ```bash
+sudo yum install -y mysql
+
 mysql -h <DB-Private-IP> -u webaccess -p tooling < /var/www/html/tooling-db.sql
 ```
 
 ### 8. Create admin user
 
 ```sql
-INSERT INTO users (id, username, password, email, user_type, status)
-VALUES (1, 'myuser', '5f4dcc3b5aa765d61d8327deb882cf99', 'user@mail.com', 'admin', '1');
+sudo mysql
+
+INSERT INTO users (username, password, email, user_type, status)
+VALUES ('myuser', '5f4dcc3b5aa765d61d8327deb882cf99', 'user@mail.com', 'admin', '1');
+
+SELECT * FROM users;
+
 ```
+    ![Image 4](images/image4.png)
 
 (Password here = `password`, MD5 hashed)
 
@@ -262,13 +284,23 @@ VALUES (1, 'myuser', '5f4dcc3b5aa765d61d8327deb882cf99', 'user@mail.com', 'admin
 
 1. Open your browser:
 
+If you get 'Forbidden You don't have permission to access this resource' run
+
+   ```bash
+   sudo setenforce 0
+   ```
+
    ```
    http://<Web-Server-Public-IP>/index.php
    ```
+    ![Image 5](images/image5.png)
+
 2. Login with:
 
    * **Username:** `myuser`
    * **Password:** `password`
+
+    ![Image 6](images/image6.png)
 
 If login works and you can create data across all 3 web servers, NFS + DB integration is successful 🎉.
 
